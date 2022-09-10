@@ -7,6 +7,7 @@ import SearchBar from '../components/SearchBar';
 
 import { searchFilter } from '../utils';
 import { getArchivedNotes, deleteNote, unarchiveNote } from '../utils/local-data';
+import { Helmet } from 'react-helmet';
 
 const ArchivePageWrapper = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -64,6 +65,9 @@ class ArchivePage extends React.Component {
         const notes = searchFilter(this.state.notes, this.state.keyword);
         return (
             <section className="archives-page">
+                <Helmet>
+                    <title>Archives Page - notes.self</title>
+                </Helmet>
                 <h2>Catatan Arsip</h2>
                 <SearchBar
                     keyword={this.state.keyword}

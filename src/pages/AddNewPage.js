@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Button from '../components/Button';
 
 import { addNote } from '../utils/local-data';
+import { Helmet } from 'react-helmet';
 
 const AddNewPageWrapper = () => {
     const navigate = useNavigate();
@@ -53,6 +54,9 @@ class AddNewPage extends React.Component {
     render() {
         return (
             <section className="add-new-page">
+                <Helmet>
+                    <title>Add New Note - note.self</title>
+                </Helmet>
                 <div className="add-new-page__input">
                     <input
                         className="add-new-page__input__title"

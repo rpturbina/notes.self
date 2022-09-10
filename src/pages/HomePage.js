@@ -2,6 +2,7 @@ import React from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 import NotesList from '../components/NotesList';
 import SearchBar from '../components/SearchBar';
@@ -77,6 +78,9 @@ class HomePage extends React.Component {
         const notes = searchFilter(this.state.notes, this.state.keyword);
         return (
             <section className="homepage">
+                <Helmet>
+                    <title>Home Page - notes.self</title>
+                </Helmet>
                 <h2>Catatan Aktif</h2>
                 <SearchBar
                     keyword={this.state.keyword}

@@ -7,6 +7,7 @@ import Button from '../components/Button';
 
 import { showFormattedDate } from '../utils';
 import { archiveNote, deleteNote, getNote, unarchiveNote } from '../utils/local-data';
+import { Helmet } from 'react-helmet';
 
 const DetailPageWrapper = () => {
     const { id } = useParams();
@@ -64,6 +65,9 @@ class DetailPage extends React.Component {
         const { title, createdAt, body, archived } = this.state.note;
         return (
             <section className="detail-page">
+                <Helmet>
+                    <title>{title} - notes.self</title>
+                </Helmet>
                 <h3 className="detail-page__title">{title}</h3>
                 <p className="detail-page__createdAt">{showFormattedDate(createdAt)}</p>
                 <div className="detail-page__body">{body}</div>
