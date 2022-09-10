@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdCheck } from 'react-icons/md';
 import PropTypes from 'prop-types';
+import parse from 'html-react-parser';
 
 import Button from '../components/Button';
 
@@ -42,7 +43,7 @@ class AddNewPage extends React.Component {
     onBodyInputEventHandler(event) {
         this.setState(() => {
             return {
-                body: event.target.innerHTML,
+                body: parse(event.target.innerHTML),
             };
         });
     }
