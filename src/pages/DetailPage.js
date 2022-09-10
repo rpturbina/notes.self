@@ -2,7 +2,9 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MdOutlineArchive, MdOutlineUnarchive, MdDeleteOutline } from 'react-icons/md';
+import parse from 'html-react-parser';
 
+import NoMatchPage from '../pages/NoMatchPage';
 import Button from '../components/Button';
 
 import { showFormattedDate } from '../utils';
@@ -62,7 +64,11 @@ class DetailPage extends React.Component {
     }
 
     render() {
+        if (!this.state.note) {
+            return <NoMatchPage />;
+        }
         const { title, createdAt, body, archived } = this.state.note;
+        console.log(body);
         return (
             <section className="detail-page">
                 <Helmet>
@@ -70,7 +76,7 @@ class DetailPage extends React.Component {
                 </Helmet>
                 <h3 className="detail-page__title">{title}</h3>
                 <p className="detail-page__createdAt">{showFormattedDate(createdAt)}</p>
-                <div className="detail-page__body">{body}</div>
+                <div className="detail-page__body">{parse(body)}</div>
                 <div className="detail-page__action">
                     {archived ? (
                         <Button
