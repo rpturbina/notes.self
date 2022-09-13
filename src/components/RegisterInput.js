@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LocaleContext from '../context/LocaleContext';
 import useInput from '../hooks/useInput';
 
 const RegisterInput = ({ register }) => {
@@ -8,12 +9,17 @@ const RegisterInput = ({ register }) => {
   const [email, onEmailChangeHandler] = useInput('');
   const [password, onPasswordChangeHandler] = useInput('');
   const [confirmPassword, onConfirmPasswordChangeHandler] = useInput('');
+  const { locale } = React.useContext(LocaleContext);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Password and password confirm harus sama');
+      alert(
+        locale === 'id'
+          ? 'Password dan Password Confirm harus sama!'
+          : 'Password and Confirm Password must be the same!',
+      );
       return;
     }
 

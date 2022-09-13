@@ -36,7 +36,7 @@ const Header = ({ logout, isAuthed, name }) => {
 Header.propTypes = {
   logout: PropTypes.func.isRequired,
   isAuthed: PropTypes.bool.isRequired,
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
 
 export default Header;
