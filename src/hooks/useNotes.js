@@ -35,10 +35,10 @@ const useNotes = (isArchived) => {
     if (isArchived) {
       const { data } = await getArchivedNotes();
       setNotes(data);
-      return;
+    } else {
+      const { data } = await getActiveNotes();
+      setNotes(data);
     }
-    const { data } = await getActiveNotes();
-    setNotes(data);
   };
 
   const onArchiveNote = async (id) => {
