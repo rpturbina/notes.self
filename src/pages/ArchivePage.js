@@ -1,29 +1,23 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useSearchParams } from 'react-router-dom';
 
 import NotesList from '../components/NotesList';
 import SearchBar from '../components/SearchBar';
+import LocaleContext from '../context/LocaleContext';
+import useKeyword from '../hooks/useKeyword';
 import { searchFilter } from '../utils';
 import { deleteNote, getArchivedNotes, unarchiveNote } from '../utils/network-data';
 
 const ArchivePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const [notes, setNotes] = React.useState([]);
-  const [keyword, setKeyword] = React.useState(() => {
-    return searchParams.get('keyword') || '';
-  });
+  const [keyword, onKeywordChangeHandler] = useKeyword();
+  const { locale } = React.useContext(LocaleContext);
 
   React.useEffect(() => {
     getArchivedNotes().then(({ data }) => {
       setNotes(data);
     });
   }, []);
-
-  const onKeywordChangeHandler = (keyword) => {
-    setSearchParams({ keyword });
-    setKeyword(keyword);
-  };
 
   const onDeleteNoteHandler = async (id) => {
     await deleteNote(id);
@@ -46,7 +40,7 @@ const ArchivePage = () => {
       <Helmet>
         <title>Archives Page - notes.self</title>
       </Helmet>
-      <h2>Catatan Arsip</h2>
+      <h2>{locale === 'id' ? 'Catatan Arsip' : 'Arcived Notes'}</h2>
       <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
       <NotesList
         notes={filteredNotes}
@@ -60,7 +54,6 @@ const ArchivePage = () => {
 export default ArchivePage;
 
 // const ArchivePageWrapper = () => {
-//   const [searchParams, setSearchParams] = useSearchParams();
 
 //   const keyword = searchParams.get('keyword');
 

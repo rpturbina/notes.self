@@ -1,32 +1,30 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { MdAdd } from 'react-icons/md';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
+import LoadingSpace from '../components/LoadingSpace';
 import NotesList from '../components/NotesList';
 import SearchBar from '../components/SearchBar';
+import LocaleContext from '../context/LocaleContext';
+import useKeyword from '../hooks/useKeyword';
 import { searchFilter } from '../utils';
 import { archiveNote, deleteNote, getActiveNotes } from '../utils/network-data';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
   const [notes, setNotes] = React.useState([]);
-  const [keyword, setKeyword] = React.useState(() => {
-    return searchParams.get('keyword') || '';
-  });
+  const [keyword, onKeywordChangeHandler] = useKeyword();
+  const [loading, setLoading] = React.useState(true);
+  const { locale } = React.useContext(LocaleContext);
 
   React.useEffect(() => {
     getActiveNotes().then(({ data }) => {
       setNotes(data);
+      setLoading(false);
     });
   }, []);
-
-  const onKeywordChangeHandler = (keyword) => {
-    setSearchParams({ keyword });
-    setKeyword(keyword);
-  };
 
   const onDeleteNoteHandler = async (id) => {
     await deleteNote(id);
@@ -49,13 +47,17 @@ const HomePage = () => {
       <Helmet>
         <title>Home Page - notes.self</title>
       </Helmet>
-      <h2>Catatan Aktif</h2>
+      <h2>{locale === 'id' ? 'Catatan Aktif' : 'Active Notes'}</h2>
       <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
-      <NotesList
-        notes={filteredNotes}
-        onDelete={onDeleteNoteHandler}
-        onArchive={onArchiveNoteHandler}
-      />
+      {loading ? (
+        <LoadingSpace>{locale === 'id' ? 'Memuat catatan ...' : 'Loading notes ...'}</LoadingSpace>
+      ) : (
+        <NotesList
+          notes={filteredNotes}
+          onDelete={onDeleteNoteHandler}
+          onArchive={onArchiveNoteHandler}
+        />
+      )}
       <div className='homepage__action'>
         <Button title='Tambah' onClick={() => navigate('/notes/new')} icon={<MdAdd />} />
       </div>
