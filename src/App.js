@@ -38,15 +38,15 @@ function App() {
                     {protectedRoutes.map((route) => (
                       <Route key={route.path} path={route.path} element={<route.element />} />
                     ))}
+                    <Route path='*' element={<NoMatchPage />} />
                   </>
                 ) : (
                   <>
-                    <Route path='/' element={<Navigate to='/login' replace />} />
+                    <Route path='*' element={<Navigate to='/login' replace />} />
                     <Route path='/register' element={<RegisterPage />} />
                     <Route path='/login' element={<LoginPage loginSuccess={onLoginSuccess} />} />
                   </>
                 )}
-                <Route path='*' element={<NoMatchPage />} />
               </Routes>
             </main>
           </div>
