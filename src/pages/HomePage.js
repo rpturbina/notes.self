@@ -1,112 +1,104 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MdAdd } from 'react-icons/md';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 
+import Button from '../components/Button';
 import NotesList from '../components/NotesList';
 import SearchBar from '../components/SearchBar';
-import Button from '../components/Button';
-
-import { archiveNote, deleteNote, getActiveNotes } from '../utils/local-data';
 import { searchFilter } from '../utils';
+import { archiveNote, deleteNote, getActiveNotes } from '../utils/local-data';
 
 const HomePageWrapper = () => {
-    const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-    const keyword = searchParams.get('keyword');
+  const keyword = searchParams.get('keyword');
 
-    const onNavigateToAddPageHandler = () => {
-        navigate('/notes/new');
-    };
+  const onNavigateToAddPageHandler = () => {
+    navigate('/notes/new');
+  };
 
-    const onKeywordChangeHandler = (keyword) => {
-        setSearchParams({ keyword });
-    };
+  const onKeywordChangeHandler = (keyword) => {
+    setSearchParams({ keyword });
+  };
 
-    return (
-        <HomePage
-            navigateToAddPage={onNavigateToAddPageHandler}
-            defaultKeyword={keyword}
-            keywordChange={onKeywordChangeHandler}
-        />
-    );
+  return (
+    <HomePage
+      navigateToAddPage={onNavigateToAddPageHandler}
+      defaultKeyword={keyword}
+      keywordChange={onKeywordChangeHandler}
+    />
+  );
 };
 
 class HomePage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            notes: getActiveNotes(),
-            keyword: props.defaultKeyword || '',
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      notes: getActiveNotes(),
+      keyword: props.defaultKeyword || '',
+    };
 
-        this.onKeywordChangeEventHandler = this.onKeywordChangeEventHandler.bind(this);
-        this.onDeleteNoteEventHandler = this.onDeleteNoteEventHandler.bind(this);
-        this.onArchiveNoteEventHandler = this.onArchiveNoteEventHandler.bind(this);
-    }
+    this.onKeywordChangeEventHandler = this.onKeywordChangeEventHandler.bind(this);
+    this.onDeleteNoteEventHandler = this.onDeleteNoteEventHandler.bind(this);
+    this.onArchiveNoteEventHandler = this.onArchiveNoteEventHandler.bind(this);
+  }
 
-    onKeywordChangeEventHandler(keyword) {
-        this.setState(() => {
-            return {
-                keyword,
-            };
-        });
-        this.props.keywordChange(keyword);
-    }
+  onKeywordChangeEventHandler(keyword) {
+    this.setState(() => {
+      return {
+        keyword,
+      };
+    });
+    this.props.keywordChange(keyword);
+  }
 
-    onDeleteNoteEventHandler(id) {
-        deleteNote(id);
-        this.setState(() => {
-            return {
-                notes: getActiveNotes(),
-            };
-        });
-    }
+  onDeleteNoteEventHandler(id) {
+    deleteNote(id);
+    this.setState(() => {
+      return {
+        notes: getActiveNotes(),
+      };
+    });
+  }
 
-    onArchiveNoteEventHandler(id) {
-        archiveNote(id);
-        this.setState(() => {
-            return {
-                notes: getActiveNotes(),
-            };
-        });
-    }
+  onArchiveNoteEventHandler(id) {
+    archiveNote(id);
+    this.setState(() => {
+      return {
+        notes: getActiveNotes(),
+      };
+    });
+  }
 
-    render() {
-        const notes = searchFilter(this.state.notes, this.state.keyword);
-        return (
-            <section className="homepage">
-                <Helmet>
-                    <title>Home Page - notes.self</title>
-                </Helmet>
-                <h2>Catatan Aktif</h2>
-                <SearchBar
-                    keyword={this.state.keyword}
-                    keywordChange={this.onKeywordChangeEventHandler}
-                />
-                <NotesList
-                    notes={notes}
-                    onDelete={this.onDeleteNoteEventHandler}
-                    onArchive={this.onArchiveNoteEventHandler}
-                />
-                <div className="homepage__action">
-                    <Button
-                        title="Tambah"
-                        onClick={this.props.navigateToAddPage}
-                        icon={<MdAdd />}
-                    />
-                </div>
-            </section>
-        );
-    }
+  render() {
+    const notes = searchFilter(this.state.notes, this.state.keyword);
+    return (
+      <section className='homepage'>
+        <Helmet>
+          <title>Home Page - notes.self</title>
+        </Helmet>
+        <h2>Catatan Aktif</h2>
+        <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeEventHandler} />
+        <NotesList
+          notes={notes}
+          onDelete={this.onDeleteNoteEventHandler}
+          onArchive={this.onArchiveNoteEventHandler}
+        />
+        <div className='homepage__action'>
+          <Button title='Tambah' onClick={this.props.navigateToAddPage} icon={<MdAdd />} />
+        </div>
+      </section>
+    );
+  }
 }
 
 HomePage.propTypes = {
-    navigateToAddPage: PropTypes.func.isRequired,
-    defaultKeyword: PropTypes.string,
-    keywordChange: PropTypes.func.isRequired,
+  navigateToAddPage: PropTypes.func.isRequired,
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func.isRequired,
 };
 
 export default HomePageWrapper;
