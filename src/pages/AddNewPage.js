@@ -6,13 +6,15 @@ import { MdCheck } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
-import { addNote } from '../utils/local-data';
+import { addNote } from '../utils/network-data';
 
 const AddNewPageWrapper = () => {
   const navigate = useNavigate();
-  const onAddNoteHandler = (note) => {
-    addNote(note);
-    navigate('/');
+  const onAddNoteHandler = async (note) => {
+    const { error } = await addNote(note);
+    if (!error) {
+      navigate('/');
+    }
   };
 
   return <AddNewPage addNote={onAddNoteHandler} />;
