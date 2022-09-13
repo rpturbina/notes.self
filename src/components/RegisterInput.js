@@ -14,10 +14,19 @@ const RegisterInput = ({ register }) => {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
+    if (password.length < 6) {
+      alert(
+        locale === 'id'
+          ? 'Password minimal harus 6 karakter!'
+          : 'Password must be at least 6 characters!',
+      );
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert(
         locale === 'id'
-          ? 'Password dan Password Confirm harus sama!'
+          ? 'Password dan Confirm Password harus sama!'
           : 'Password and Confirm Password must be the same!',
       );
       return;
@@ -29,11 +38,17 @@ const RegisterInput = ({ register }) => {
   return (
     <form className='input-register' onSubmit={onSubmitHandler}>
       <label htmlFor='name'>Nama</label>
-      <input type='text' id='name' value={name} onChange={onNameChangeHandler} />
+      <input type='text' id='name' value={name} onChange={onNameChangeHandler} required />
       <label htmlFor='email'>Email</label>
-      <input type='email' id='email' value={email} onChange={onEmailChangeHandler} />
+      <input type='email' id='email' value={email} onChange={onEmailChangeHandler} required />
       <label htmlFor='password'>Password</label>
-      <input type='password' id='password' value={password} onChange={onPasswordChangeHandler} />
+      <input
+        type='password'
+        id='password'
+        value={password}
+        onChange={onPasswordChangeHandler}
+        required
+      />
       <label htmlFor='confirm-password'>Confirm Password</label>
       <input
         type='password'
