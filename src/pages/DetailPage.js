@@ -2,44 +2,26 @@ import parse from 'html-react-parser';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { MdDeleteOutline, MdOutlineArchive, MdOutlineUnarchive } from 'react-icons/md';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Button from '../components/Button';
+import LoadingSpace from '../components/LoadingSpace';
+import LocaleContext from '../context/LocaleContext';
+import useSingleNote from '../hooks/useSingleNote';
 import NoMatchPage from '../pages/NoMatchPage';
 import { showFormattedDate } from '../utils';
-import { archiveNote, deleteNote, getNote, unarchiveNote } from '../utils/network-data';
 
 const DetailPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [note, setNote] = React.useState(null);
+  const { locale } = React.useContext(LocaleContext);
 
-  React.useEffect(() => {
-    getNote(id).then(({ data }) => {
-      setNote(data);
-    });
-  }, [id]);
+  const { loading, note, onArchiveNote, onUnarchiveNote, onDeleteNote } = useSingleNote(id);
 
-  const onArchiveNoteHandler = async (id) => {
-    const { error } = await archiveNote(id);
-    if (!error) {
-      navigate('/');
-    }
-  };
-
-  const onUnarchiveNoteHandler = async (id) => {
-    const { error } = await unarchiveNote(id);
-    if (!error) {
-      navigate('/');
-    }
-  };
-
-  const onDeleteNoteHandler = async (id) => {
-    const { error } = await deleteNote(id);
-    if (!error) {
-      navigate('/');
-    }
-  };
+  if (loading) {
+    return (
+      <LoadingSpace>{locale === 'id' ? 'Memuat catatan ...' : 'Loading notes ...'}</LoadingSpace>
+    );
+  }
 
   if (!note) {
     return <NoMatchPage />;
@@ -57,11 +39,11 @@ const DetailPage = () => {
       <div className='detail-page__body'>{parse(body)}</div>
       <div className='detail-page__action'>
         {archived ? (
-          <Button title='Aktifkan' onClick={onUnarchiveNoteHandler} icon={<MdOutlineUnarchive />} />
+          <Button title='Aktifkan' onClick={onUnarchiveNote} icon={<MdOutlineUnarchive />} />
         ) : (
-          <Button title='Arsipkan' onClick={onArchiveNoteHandler} icon={<MdOutlineArchive />} />
+          <Button title='Arsipkan' onClick={onArchiveNote} icon={<MdOutlineArchive />} />
         )}
-        <Button title='Hapus' onClick={onDeleteNoteHandler} icon={<MdDeleteOutline />} />
+        <Button title='Hapus' onClick={onDeleteNote} icon={<MdDeleteOutline />} />
       </div>
     </section>
   );
