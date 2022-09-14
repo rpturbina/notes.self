@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 import LoginInput from '../components/LoginInput';
@@ -17,6 +18,9 @@ const LoginPage = ({ loginSuccess }) => {
   };
   return (
     <section className='login-page'>
+      <Helmet>
+        <title>{locale === 'id' ? 'Halaman Login' : 'Login Page'} - notes.self</title>
+      </Helmet>
       <h2>
         {locale === 'id' ? 'Yuk, login untuk menggunakan aplikasi.' : 'Login to use app, please.'}
       </h2>

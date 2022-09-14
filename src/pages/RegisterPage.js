@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Link, useNavigate } from 'react-router-dom';
 
 import RegisterInput from '../components/RegisterInput';
@@ -19,6 +20,9 @@ const RegisterPage = () => {
   };
   return (
     <section className='register-page'>
+      <Helmet>
+        <title>{locale === 'id' ? 'Halaman Registrasi' : 'Register Page'} - notes.self</title>
+      </Helmet>
       <h2>
         {locale === 'id' ? 'Isi form untuk mendaftar akun.' : 'Fill the form to register account.'}
       </h2>
