@@ -1,4 +1,3 @@
-import parse from 'html-react-parser';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { MdCheck } from 'react-icons/md';
@@ -7,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import LocaleContext from '../context/LocaleContext';
 import useInput from '../hooks/useInput';
+import { decodeHTMLEntities } from '../utils';
 import { addNote } from '../utils/network-data';
 
 const AddNewPage = () => {
@@ -16,8 +16,12 @@ const AddNewPage = () => {
   const { locale } = React.useContext(LocaleContext);
 
   const onBodyInputHandler = (event) => {
-    setBody(() => parse(event.target.innerHTML));
+    setBody(() => decodeHTMLEntities(event.target.innerHTML));
   };
+
+  React.useEffect(() => {
+    console.log(body);
+  }, [body]);
 
   const onAddNoteHandler = async () => {
     const { error } = await addNote({ title, body });
@@ -39,8 +43,8 @@ const AddNewPage = () => {
         />
         <div
           className='add-new-page__input__body'
-          contentEditable
           data-placeholder={locale === 'id' ? 'Ketik isi catatan ...' : 'Type your note ...'}
+          contentEditable
           onInput={onBodyInputHandler}
         />
       </div>

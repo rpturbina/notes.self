@@ -19,21 +19,22 @@ const useSingleNote = (id) => {
     };
   }, [id]);
 
-  const onArchiveNote = async (id) => {
+  const onArchiveNote = async () => {
     const { error } = await archiveNote(id);
     if (!error) {
       navigate('/');
     }
   };
 
-  const onUnarchiveNote = async (id) => {
+  const onUnarchiveNote = async () => {
     const { error } = await unarchiveNote(id);
     if (!error) {
       navigate('/');
     }
   };
 
-  const onDeleteNote = async (id) => {
+  const onDeleteNote = async () => {
+    console.log(id);
     const { error } = await deleteNote(id);
     if (!error) {
       navigate('/');

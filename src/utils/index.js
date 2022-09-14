@@ -33,4 +33,10 @@ const searchFilter = (notes, searchKeyword) => {
   return searchResults;
 };
 
-export { showFormattedDate, searchFilter };
+const decodeHTMLEntities = (text) => {
+  let textArea = document.createElement('textarea');
+  textArea.innerHTML = text;
+  return textArea.value;
+};
+
+export { showFormattedDate, searchFilter, decodeHTMLEntities };
