@@ -8,11 +8,15 @@ const showFormattedDate = (date) => {
   return new Date(date).toLocaleDateString('id-ID', options);
 };
 
+const escapeRegExp = (string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+};
+
 const checkKeywordPattern = (title, keyword) => {
   const pattern = keyword
     .split('')
     .map((q) => {
-      return `(?=.*${q})`;
+      return `(?=.*${escapeRegExp(q)})`;
     })
     .join('');
 

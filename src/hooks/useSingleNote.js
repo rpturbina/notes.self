@@ -34,7 +34,6 @@ const useSingleNote = (id) => {
   };
 
   const onDeleteNote = async () => {
-    console.log(id);
     const { error } = await deleteNote(id);
     if (!error) {
       navigate('/');
