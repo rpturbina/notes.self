@@ -13,6 +13,7 @@ const RegisterPage = () => {
     const { error } = await register(user);
 
     if (!error) {
+      alert(locale === 'id' ? 'Akun berhasil dibuat.' : 'Account has been created successfully.');
       navigate('/');
     }
   };
