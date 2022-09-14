@@ -19,10 +19,6 @@ const AddNewPage = () => {
     setBody(() => decodeHTMLEntities(event.target.innerHTML));
   };
 
-  React.useEffect(() => {
-    console.log(body);
-  }, [body]);
-
   const onAddNoteHandler = async () => {
     const { error } = await addNote({ title, body });
     if (!error) {
