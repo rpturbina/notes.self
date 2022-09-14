@@ -33,7 +33,11 @@ const HomePage = () => {
         <NotesList notes={filteredNotes} onDelete={onDeleteNote} onArchive={onArchiveNote} />
       )}
       <div className='homepage__action'>
-        <Button title='Tambah' onClick={() => navigate('/notes/new')} icon={<MdAdd />} />
+        <Button
+          title={locale === 'id' ? 'Tambah catatan baru' : 'Add new note'}
+          onClick={() => navigate('/notes/new')}
+          icon={<MdAdd />}
+        />
       </div>
     </section>
   );

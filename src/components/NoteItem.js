@@ -1,11 +1,15 @@
 import parse from 'html-react-parser';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import LocaleContext from '../context/LocaleContext';
 import { showFormattedDate } from '../utils';
 
 const NoteItem = ({ id, title, createdAt, body, archived, onDelete, onArchive }) => {
+  const { locale } = useContext(LocaleContext);
+  const arhiveText = locale === 'id' ? 'Aktifkan' : 'Unarchive';
+  const unArchiveText = locale === 'id' ? 'Arsipkan' : 'Archive';
   return (
     <article className='note-item'>
       <h3 className='note-item__title'>
@@ -15,10 +19,10 @@ const NoteItem = ({ id, title, createdAt, body, archived, onDelete, onArchive })
       <p className='note-item__body'>{parse(body)}</p>
       <div className='note-item__action'>
         <button className='note-item__delete-button' onClick={() => onDelete(id)}>
-          Hapus
+          {locale === 'id' ? 'Hapus' : 'Delete'}
         </button>
         <button className='note-item__archive-button' onClick={() => onArchive(id)}>
-          {archived ? 'Aktifkan' : 'Arsipkan'}
+          {archived ? unArchiveText : arhiveText}
         </button>
       </div>
     </article>

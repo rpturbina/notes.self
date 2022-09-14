@@ -49,7 +49,11 @@ const AddNewPage = () => {
         />
       </div>
       <div className='add-new-page__action'>
-        <Button title='Simpan' onClick={onAddNoteHandler} icon={<MdCheck />} />
+        <Button
+          title={locale === 'id' ? 'Simpan' : 'Save'}
+          onClick={onAddNoteHandler}
+          icon={<MdCheck />}
+        />
       </div>
     </section>
   );

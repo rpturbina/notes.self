@@ -39,11 +39,23 @@ const DetailPage = () => {
       <div className='detail-page__body'>{parse(body)}</div>
       <div className='detail-page__action'>
         {archived ? (
-          <Button title='Aktifkan' onClick={onUnarchiveNote} icon={<MdOutlineUnarchive />} />
+          <Button
+            title={locale === 'id' ? 'Aktifkan' : 'Unarchive'}
+            onClick={onUnarchiveNote}
+            icon={<MdOutlineUnarchive />}
+          />
         ) : (
-          <Button title='Arsipkan' onClick={onArchiveNote} icon={<MdOutlineArchive />} />
+          <Button
+            title={locale === 'id' ? 'Arsipkan' : 'Archive'}
+            onClick={onArchiveNote}
+            icon={<MdOutlineArchive />}
+          />
         )}
-        <Button title='Hapus' onClick={onDeleteNote} icon={<MdDeleteOutline />} />
+        <Button
+          title={locale === 'id' ? 'Hapus' : 'Delete'}
+          onClick={onDeleteNote}
+          icon={<MdDeleteOutline />}
+        />
       </div>
     </section>
   );
